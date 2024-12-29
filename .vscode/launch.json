@@ -1,0 +1,29 @@
+{
+  // 使用 IntelliSense 了解相关属性。 
+  // 悬停以查看现有属性的描述。
+  // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "debug train.py",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/train.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "debug run.py",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/run.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "debug chess_manual.py",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/chess_manual.py",
+      "console": "integratedTerminal"
+    },
+  ]
+}
