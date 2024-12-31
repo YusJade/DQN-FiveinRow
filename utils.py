@@ -84,7 +84,7 @@ def render_history(history):
             step = (step + 1) % len(history)
             if step == 0:
                 paused = True   # 对弈结束暂停播放
-            clock.tick(30)   # 控制轮播速度（2帧每秒）
+            clock.tick(2)   # 控制轮播速度（2帧每秒）
 
     pygame.quit()
 

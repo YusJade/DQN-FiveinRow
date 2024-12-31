@@ -11,8 +11,8 @@ class Config:
         self.memory_capacity = 1000  # 经验池大小
         self.batch_size = 64         # 每次学习时从经验池采用的样本数
         # DQN 网络
-        self.discount_factor = 0.20            # 折扣因子，代表对未来奖励的预期
-        self.learning_rate = 0.15  # 学习率
+        self.discount_factor = 0.14            # 折扣因子，代表对未来奖励的预期
+        self.learning_rate = 0.25  # 学习率
         self.hidden_dim = 128       # 线性隐藏层的输入输出维度
 
         self.board_size = 11
