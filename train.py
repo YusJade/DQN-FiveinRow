@@ -10,6 +10,7 @@ import torch
 
 import config
 import dqn
+from explore_rule import ChainBasedExploreRule
 from utils import render_history
 
 
@@ -17,6 +18,7 @@ def train():
     logger.remove()
     logger.add(sys.stderr, level="INFO")
     str_date = datetime.now().strftime("%Y-%m-%d_%H_%M_%S")
+    save_path = f"./runs/run_{str_date}"
     logger.add(f'./logs/{str_date}/train.log', level="DEBUG")
     os.makedirs(f"./runs/run_{str_date}", exist_ok=True)
     cfg = config.Config()
@@ -33,6 +35,7 @@ def train():
 
     import env
     env = env.FiveInRow(board_size=cfg.board_size)
+    explore_rule = ChainBasedExploreRule()
 
     rewards = []    # 每局训练的总 reward
     avg_rewards = []     # 最近 50 局训练的平均 reward
@@ -48,7 +51,8 @@ def train():
         while True:
             step += 1
             state = env.get_state(player)
-            action, _ = agent.act(state, eps)
+            explore_rule.prepare(env.get_board(), 1 if player == "white" else 2)
+            action, _ = agent.act(state, eps, explore_rule)
             next_state, reward, done, invalid_action, trunc = env.step(
                 player, action)
             agent.step(state, action, reward, next_state, done)
@@ -73,9 +77,10 @@ def train():
 
     plt.ylabel('reward')
     plt.xlabel('episode')
-    plt.plot(range(len(rewards)), rewards)
-    plt.plot(range(len(avg_rewards)), avg_rewards)
+    plt.plot(range(len(rewards)), rewards, color="#4dfa1e")
+    plt.plot(range(len(avg_rewards)), avg_rewards, color="#C51EFA")
     plt.legend(['reward', 'avg_reward'])
+    plt.savefig(f'{save_path}/reward.png')
     plt.show()
 
 

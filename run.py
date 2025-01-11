@@ -11,7 +11,7 @@ from utils import render_history
 cfg = Config()
 
 net = QNetwork(cfg.state_size, cfg.action_size, cfg.hidden_dim)
-net.load_state_dict(torch.load("runs/run_2024-12-31_14_38_39/weight.pth", weights_only=True))
+net.load_state_dict(torch.load("runs/run_2025-01-03_15_49_01/weight.pth", weights_only=True))
 net.eval()
 logger.info(net)
 

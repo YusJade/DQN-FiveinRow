@@ -23,7 +23,7 @@ class FiveInRow:
         self.board = np.zeros((board_size, board_size), dtype=np.int)
         self.history = []  # 缓存对弈过程
         self.manual = ChessManual()
-
+        
     def reset(self):
         """
         重置环境，初始化棋盘。
@@ -72,8 +72,8 @@ class FiveInRow:
                                              1 if player == "white" else 2)
         enemy_next_reward = self.manual.get_reward(self.board,
                                              2 if player == "white" else 1)
-        enemy_deadline = (enemy_pre_reward - enemy_next_reward) * 0.7
-        player_boost = (next_reward - pre_reward) * 0.3
+        enemy_deadline = (enemy_pre_reward - enemy_next_reward) * 0.0
+        player_boost = (next_reward - pre_reward) * 1
         reward = player_boost + enemy_deadline
         return state, reward + 0.01, self.done, False, trunc
 
@@ -88,6 +88,9 @@ class FiveInRow:
         state_size = self.board_size * self.board_size * 2
         state = np.reshape([player_board, enemy_board], (1, state_size))
         return state
+    
+    def get_board(self):
+        return self.board
 
     def check_winner(self, player, x, y):
         """

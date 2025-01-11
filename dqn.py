@@ -98,7 +98,7 @@ class DQNAgent:
                 experiences = self.replay_buffer.sample(self.batch_size)
                 self.learn(experiences, callback)
 
-    def act(self, state, eps=0.0):
+    def act(self, state, eps=0.0, explore_rule=None):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         # Epsilon-greedy action selection
         if random.random() > eps:
@@ -108,8 +108,11 @@ class DQNAgent:
                 action_values = self.qnetwork_local(state)
             self.qnetwork_local.train()
             return np.argmax(action_values.cpu().data.numpy()), action_values.cpu().detach()
-        else:
+        elif explore_rule is None:
             return random.choice(np.arange(self.action_size)), np.zeros(self.state_size)
+        else:
+            better_chain_pos = explore_rule.explore()
+            return better_chain_pos, np.zeros(self.state_size)
 
     def learn(self, experiences, callback=None):
         states, actions, rewards, next_states, dones = experiences
@@ -136,4 +139,3 @@ class DQNAgent:
         if self.steps % 50 == 0:
             self.qnetwork_target.load_state_dict(
                 self.qnetwork_local.state_dict())
-            logger.info('update target network`s parameters')
